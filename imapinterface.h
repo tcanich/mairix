@@ -7,7 +7,7 @@ struct imap_ll;
 
 /* set pipe OR server, not both */
 struct imap_ll *
-imap_start(const char *pipe, const char *server, const char *username, const char *password);
+imap_start(const char *pipe, const char *server, const char *port, const char *username, const char *password);
 
 void
 build_imap_message_list(const char *folders, struct msgpath_array *msgs, struct globber_array *omit_globs, struct imap_ll *);

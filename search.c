@@ -829,7 +829,7 @@ static void string_tolower(char *str)
   }
 }
 
-static int do_search(struct read_db *db, char **args, char *output_path, int show_threads, enum folder_type ft, int verbose, const char *imap_pipe, const char *imap_server, const char *imap_username, const char *imap_password, int please_clear)/*{{{*/
+static int do_search(struct read_db *db, char **args, char *output_path, int show_threads, enum folder_type ft, int verbose, const char *imap_pipe, const char *imap_server, const char *imap_port, const char *imap_username, const char *imap_password, int please_clear)/*{{{*/
 {
   char *colon, *start_words;
   int do_body, do_subject, do_from, do_to, do_cc, do_date, do_size;
@@ -847,7 +847,7 @@ static int do_search(struct read_db *db, char **args, char *output_path, int sho
 #define GET_IMAP if (!imap_tried) {\
         imap_tried = 1;\
 	if (imap_pipe || imap_server) {\
-		imapc = imap_start(imap_pipe, imap_server, imap_username, imap_password);\
+		imapc = imap_start(imap_pipe, imap_server, imap_port, imap_username, imap_password);\
 	} else {\
 		fprintf(stderr, "[No IMAP settings]\n");\
 		imapc = NULL;\
@@ -1544,7 +1544,7 @@ static void clear_mbox_folder(char *path)/*{{{*/
 }
 /*}}}*/
 
-int search_top(int do_threads, int do_augment, char *database_path, char *complete_mfolder, char **argv, enum folder_type ft, int verbose, const char *imap_pipe, const char *imap_server, const char *imap_username, const char *imap_password)/*{{{*/
+int search_top(int do_threads, int do_augment, char *database_path, char *complete_mfolder, char **argv, enum folder_type ft, int verbose, const char *imap_pipe, const char *imap_server, const char *imap_port, const char *imap_username, const char *imap_password)/*{{{*/
 {
   struct read_db *db;
   int result;
@@ -1596,7 +1596,7 @@ int search_top(int do_threads, int do_augment, char *database_path, char *comple
     }
   }
 
-  result = do_search(db, argv, complete_mfolder, do_threads, ft, verbose, imap_pipe, imap_server, imap_username, imap_password, please_clear);
+  result = do_search(db, argv, complete_mfolder, do_threads, ft, verbose, imap_pipe, imap_server, imap_port, imap_username, imap_password, please_clear);
   free(complete_mfolder);
   close_db(db);
   return result;

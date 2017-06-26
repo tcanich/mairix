@@ -50,6 +50,7 @@ static char *mboxen = NULL;
 static char *imap_folders = NULL;
 static char *imap_pipe = NULL;
 static char *imap_server = NULL;
+static char *imap_port = NULL;
 static char *imap_username = NULL;
 static char *imap_password = NULL;
 static char *mfolder = NULL;
@@ -261,6 +262,7 @@ static void parse_rc_file(char *name)/*{{{*/
     else if (!strncasecmp(p, "imap=", 5)) add_folders(&imap_folders, copy_value(p));
     else if (!strncasecmp(p, "imap_pipe=", 10)) imap_pipe = copy_value(p);
     else if (!strncasecmp(p, "imap_server=", 12)) imap_server = copy_value(p);
+    else if (!strncasecmp(p, "imap_port=", 9)) imap_port = copy_value(p);
     else if (!strncasecmp(p, "imap_username=", 14)) imap_username = copy_value(p);
     else if (!strncasecmp(p, "imap_password=", 14)) imap_password = copy_value(p);
     else if (!strncasecmp(p, "omit=", 5)) add_folders(&omit, copy_value(p));
@@ -781,7 +783,7 @@ int main (int argc, char **argv)/*{{{*/
     if (verbose) printf("Finding all currently existing messages...\n");
     msgs = new_msgpath_array();
     if (imap_folders) {
-      imapc = imap_start(imap_pipe, imap_server, imap_username, imap_password);
+      imapc = imap_start(imap_pipe, imap_server, imap_port, imap_username, imap_password);
       if (!imapc) unlock_and_exit(2);
       build_imap_message_list(imap_folders, msgs, omit_globs, imapc);
     }

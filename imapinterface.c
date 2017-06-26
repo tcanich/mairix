@@ -7,7 +7,7 @@
 #include "mairix.h"
 
 struct imap_ll *
-imap_start(const char *pipe, const char *server, const char *username, const char *password)
+imap_start(const char *pipe, const char *server, const char *port, const char *username, const char *password)
 {
 #ifdef USE_OPENSSL
 SSL_CTX *sslctx;
@@ -28,7 +28,7 @@ struct imap_ll *imapc;
 	SSL_CTX_set_verify(sslctx, SSL_VERIFY_PEER, NULL);
 #endif
 
-	imapc = pipe ? imap_ll_pipe_connect(pipe) : imap_ll_connect(server, "143");
+	imapc = pipe ? imap_ll_pipe_connect(pipe) : imap_ll_connect(server, port);
 	if (!imapc) return NULL;
 
 	switch (imap_login(
